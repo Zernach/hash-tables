@@ -203,6 +203,14 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        old_data = self.data
+        self.data = [None] * new_capacity
+        self.capacity = new_capacity
+        self.load = 0
+        for item in old_data:
+            while item:
+                self.put(item.key, item.value)
+                item = item.next
 
 
 
