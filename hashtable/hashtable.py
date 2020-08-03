@@ -64,7 +64,7 @@ class HashTable:
         """
         # Your code here
 
-
+    # DAY 1
     def hash_index(self, key):
         """
         Take an arbitrary key and return a valid integer index
@@ -73,6 +73,7 @@ class HashTable:
         #return self.fnv1(key) % self.capacity
         return self.djb2(key) % self.capacity
 
+    # DAY 1
     def put(self, key, value):
         """
         Store the value with the given key.
@@ -84,6 +85,7 @@ class HashTable:
         # Your code here
 
 
+    # DAY 1
     def delete(self, key):
         """
         Remove the value stored with the given key.
@@ -94,7 +96,7 @@ class HashTable:
         """
         # Your code here
 
-
+    # DAY 1
     def get(self, key):
         """
         Retrieve the value stored with the given key.
