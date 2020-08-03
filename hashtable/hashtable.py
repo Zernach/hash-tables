@@ -21,10 +21,12 @@ class HashTable:
     """
 
     def __init__(self, capacity):
-        # Ryan's Code Here -->
         self.capacity = capacity
+        self.data = [None] * capacity
+        self.load = 0
 
 
+    # MONDAY
     def get_num_slots(self):
         """
         Return the length of the list you're using to hold the hash
@@ -35,17 +37,18 @@ class HashTable:
 
         Implement this.
         """
-        # Ryan's Code Here -->
         return self.capacity
 
 
+    # MONDAY
     def get_load_factor(self):
         """
         Return the load factor for this hash table.
 
         Implement this.
         """
-        # Ryan's Code Here -->
+        return self.load / self.capacity
+
 
     # MONDAY
     def fnv1_64(self, string, seed=0):
@@ -63,6 +66,7 @@ class HashTable:
             hash = hash ^ ord(char)
         return hash
 
+
     # MONDAY
     def fnv1a_64(self, string, seed=0):
         """
@@ -79,25 +83,28 @@ class HashTable:
             hash = hash * FNV_prime
         return hash
 
-    # DAY 1
+
+    # MONDAY
     def djb2(self, key):
         """
-        DJB2 hash, 32-bit
-
-        Implement this, and/or FNV-1.
+        Returns: The DJB2 hash, 32-bit hash of a given string.
         """
         # Your code here
+        return self.capacity
 
-    # DAY 1
+
+    # MONDAY
     def hash_index(self, key):
         """
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        #return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+        # Alternate between which of the following (2) you'd like to use:
+        return self.fnv1_64(key) % self.capacity
+        #return self.djb2(key) % self.capacity
 
-    # DAY 1
+
+    # MONDAY
     def put(self, key, value):
         """
         Store the value with the given key.
@@ -106,10 +113,31 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
 
+        # Hash the key
+        hashed_index = self.hash_index(key)
 
-    # DAY 1
+        # If hashed key doesn't already exist in data...
+        if self.data[hashed_index] == None:
+            # then make a new HashTableEntry and add it to the index of the hashed key.
+            self.data[hashed_index] = HashTableEntry(key, value)
+            # For keeping track of how many elements are indexed in this hash table:
+            self.load += 1
+        else:
+            node = self.data[hashed_index]
+            if node.key == key:
+                node.value = value
+            else:
+                while node.next != None and node.key != key:
+                    node = node.next
+                node.next = HashTableEntry(key, value)
+                self.load += 1
+        
+        #if self.get_load_factor() > 0.7:
+        #    self.resize(2*self.capacity)
+        
+
+    # MONDAY
     def delete(self, key):
         """
         Remove the value stored with the given key.
@@ -118,9 +146,30 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
 
-    # DAY 1
+        # Hash the key
+        hashed_index = self.hash_index(key)
+
+        # If hashed key doesn't exist in data...
+        if self.data[hashed_index] == None: 
+            print("ERROR: Key not found in list.")
+
+        elif self.data[hashed_index].key == key:
+            self.data[hashed_index] = None
+            # For keeping track of how many elements are indexed in this hash table:
+            self.load -= 1
+
+        elif (self.data[hashed_index].key != key) and (self.data[hashed_index].next != None):
+            prev = self.data[hashed_index]
+            curr = self.data[hashed_index].next
+            while curr.key != key and curr.next != None:
+                prev, curr = curr, curr.next
+            if curr.key == key:
+                prev.next = curr.next
+                # For keeping track of how many elements are indexed in this hash table:
+                self.load -= 1
+
+    # MONDAY
     def get(self, key):
         """
         Retrieve the value stored with the given key.
@@ -129,7 +178,21 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+
+        # Hash the key
+        hashed_index = self.hash_index(key)
+
+        # Fetch the data
+        data = self.data[hashed_index]
+
+        # If None, return None...
+        if data == None:
+            return data
+        
+        while data.key != key and data.next != None:
+            data = data.next
+        if data.key == key:
+            return data.value 
 
 
     def resize(self, new_capacity):
