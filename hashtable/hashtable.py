@@ -21,7 +21,8 @@ class HashTable:
     """
 
     def __init__(self, capacity):
-        # Your code here
+        # Ryan's Code Here -->
+        self.capacity = capacity
 
 
     def get_num_slots(self):
@@ -34,7 +35,8 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        # Ryan's Code Here -->
+        return self.capacity
 
 
     def get_load_factor(self):
@@ -43,19 +45,41 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        # Ryan's Code Here -->
 
-
-    def fnv1(self, key):
+    # MONDAY
+    def fnv1_64(self, string, seed=0):
         """
-        FNV-1 Hash, 64-bit
-
-        Implement this, and/or DJB2.
+        Returns: The FNV-1, 64-bit hash of a given string. 
         """
+        #Constants
+        FNV_prime = 1099511628211
+        offset_basis = 14695981039346656037
 
-        # Your code here
+        #FNV-1a Hash Function
+        hash = offset_basis + seed
+        for char in string:
+            hash = hash * FNV_prime
+            hash = hash ^ ord(char)
+        return hash
 
+    # MONDAY
+    def fnv1a_64(self, string, seed=0):
+        """
+        Returns: The FNV-1a (alternate) hash of a given string
+        """
+        #Constants
+        FNV_prime = 1099511628211
+        offset_basis = 14695981039346656037
 
+        #FNV-1a Hash Function
+        hash = offset_basis + seed
+        for char in string:
+            hash = hash ^ ord(char)
+            hash = hash * FNV_prime
+        return hash
+
+    # DAY 1
     def djb2(self, key):
         """
         DJB2 hash, 32-bit
