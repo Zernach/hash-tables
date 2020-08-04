@@ -48,6 +48,7 @@ class HashTable:
         Implement this.
         """
         return self.load / self.capacity
+        #return self.capacity - self.load
 
 
     # MONDAY
@@ -116,6 +117,10 @@ class HashTable:
 
         # Hash the key
         hashed_index = self.hash_index(key)
+
+        # Resize the hashtable is it needs to be bigger...
+        if self.get_load_factor() > 0.7:
+            self.resize(2*self.capacity)
 
         # If hashed key doesn't already exist in data...
         if self.data[hashed_index] == None:
@@ -211,6 +216,8 @@ class HashTable:
             while item:
                 self.put(item.key, item.value)
                 item = item.next
+                # For keeping track of how many elements are indexed in this hash table:
+                self.load += 1
 
 
 
