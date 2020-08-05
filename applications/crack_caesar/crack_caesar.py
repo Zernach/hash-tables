@@ -3,7 +3,10 @@ Use frequency analysis to find the key to ciphertext.txt, and then
 decode it.
 """
 
+# For checking if something is punctuation
 import string
+# For sorting a dictionary
+import operator
 
 # Dict of letters of overall frequency used in written English.
 english_frequencies = {
@@ -42,11 +45,9 @@ with open('ciphertext.txt') as ciphertext:
 
     for char in ciphertext:
 
-        # Skip it if the char is punctuation.
+        # Don't count if it's punctuation.
         if char in string.punctuation:
-            print(char)
-            continue
-
+                continue
         # If letter is already in freq, +1 the count...
         try:
             freq[char] += 1
@@ -56,9 +57,19 @@ with open('ciphertext.txt') as ciphertext:
 
 # Count how many items have been counted in total.
 sum = 0
-for value in freq.values():
-    sum += value
+for char in freq:
+    sum += freq[char]
 
 # Convert counts-of-freq to ratio-of-freq...
-for char_count in freq.values():
+for char in freq:
+    freq[char] = freq[char] / sum * 100
 
+# Sort the dict
+freq_sorted = sorted(freq.items(), key=operator.itemgetter(1), reverse=True)
+
+# 
+freq_sorted
+for i in range(0, len(freq_sorted)):
+    english_frequencies[i]
+    if freq_sorted[i] in string.punctuation:
+        continue
