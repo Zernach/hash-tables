@@ -54,3 +54,11 @@ with open('ciphertext.txt') as ciphertext:
         except:
             freq[char] = 1 
 
+# Count how many items have been counted in total.
+sum = 0
+for value in freq.values():
+    sum += value
+
+# Convert counts-of-freq to ratio-of-freq...
+for char_count in freq.values():
+
