@@ -75,8 +75,8 @@ key = {}
 for i in range(0, len(freq_sorted)):
     key[freq_sorted[i][0]] = english_frequencies[i][0]
 
+# Translate/decipher using key & print results.
 translation = ""
-# Decipher using key & print results.
 with open('ciphertext.txt') as ciphertext:
     for phrase in ciphertext:
         for char in phrase:
