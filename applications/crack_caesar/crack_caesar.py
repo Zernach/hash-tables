@@ -43,17 +43,19 @@ freq = {}
 
 with open('ciphertext.txt') as ciphertext:
 
-    for char in ciphertext:
+    for phrase in ciphertext:
 
-        # Don't count if it's punctuation.
-        if char in string.punctuation:
-                continue
-        # If letter is already in freq, +1 the count...
-        try:
-            freq[char] += 1
-        # ...or else create letter count within freq dict.
-        except:
-            freq[char] = 1 
+        for char in phrase:
+
+            # Don't count if it's punctuation.
+            if char in string.punctuation or char == '\n' or char == " " or char == "—" or char == '1':
+                    continue
+            # If letter is already in freq, +1 the count...
+            try:
+                freq[char] += 1
+            # ...or else create letter count within freq dict.
+            except:
+                freq[char] = 1 
 
 # Count how many items have been counted in total.
 sum = 0
@@ -64,12 +66,21 @@ for char in freq:
 for char in freq:
     freq[char] = freq[char] / sum * 100
 
-# Sort the dict
+# Sort the dict with largest frequencies on top.
 freq_sorted = sorted(freq.items(), key=operator.itemgetter(1), reverse=True)
+english_frequencies = sorted(english_frequencies.items(), key=operator.itemgetter(1), reverse=True)
 
-# 
-freq_sorted
+# Make a key.
+key = {}
 for i in range(0, len(freq_sorted)):
-    english_frequencies[i]
-    if freq_sorted[i] in string.punctuation:
-        continue
+    key[freq_sorted[i][0]] = english_frequencies[i][0]
+
+# Decipher using key & print results.
+with open('ciphertext.txt') as ciphertext:
+    for phrase in ciphertext:
+        for char in phrase:
+            # Don't decipher if it's punctuation.
+            if char in string.punctuation or char == '\n' or char == " " or char == "—" or char == '1':
+                    print(char)
+                    continue
+            print(key[char])
